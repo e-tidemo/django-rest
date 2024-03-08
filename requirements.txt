@@ -17,6 +17,7 @@ django-taggit==5.0.1
 django-taggit-labels==0.7.0
 django-termsandconditions==2.0.12
 django-tinymce==3.7.1
+djangorestframework==3.14.0
 gunicorn==20.1.0
 humanize==4.9.0
 idna==3.6
