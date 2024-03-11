@@ -32,3 +32,14 @@ class PostSerializer(serializers.ModelSerializer):
             'profile_image', 'created_at', 'updated_at',
             'title', 'content', 'image', 'image_filter'
         ]
+
+
+urls.py
+
+from django.urls import path
+from posts import views
+
+urlpatterns = [
+    path('posts/', views.PostList.as_view()),
+    path('posts/<int:pk>/', views.PostDetail.as_view())
+]
