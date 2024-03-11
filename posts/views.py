@@ -1,16 +1,16 @@
-from django.shortcuts import render
-
-# Create your views here.
 from django.http import Http404
 from rest_framework import status, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Post
 from .serializers import PostSerializer
-from drf_api.permissions import IsOwnerOrReadOnly
+from drf_api.permissions import isOwnerOrReadOnly
 
 
 class PostList(APIView):
+    """
+    List posts or create a post if logged in
+    """
     serializer_class = PostSerializer
     permission_classes = [
         permissions.IsAuthenticatedOrReadOnly
@@ -38,7 +38,10 @@ class PostList(APIView):
 
 
 class PostDetail(APIView):
-    permission_classes = [IsOwnerOrReadOnly]
+    """
+    Retrieve a post and edit or delete it if you own it
+    """
+    permission_classes = [isOwnerOrReadOnly]
     serializer_class = PostSerializer
 
     def get_object(self, pk):
