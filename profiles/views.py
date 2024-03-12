@@ -1,11 +1,12 @@
 from django.db.models import Count
 from rest_framework import generics, filters
+from django_filters.rest_framework import DjangoFilterBackend
 from .models import Profile
 from .serializers import ProfileSerializer
 from drf_api.permissions import isOwnerOrReadOnly
 
 
-class ProfileList(generics.APIView):
+class ProfileList(generics.ListAPIView):
     """
     List all profiles
     No Create view (post method), as profile creation handled by django signals
@@ -17,14 +18,19 @@ class ProfileList(generics.APIView):
     ).order_by('-created_at')
     serializer_class = ProfileSerializer
     filter_backends = [
-        filters.OrderingFilter
+        filters.OrderingFilter,
+        DjangoFilterBackend,
+    ]
+    filterset_fields = [
+        'owner__following__followed__profile',
+        'owner__followed__owner__profile',
     ]
     ordering_fields = [
         'posts_count',
         'follower_count',
         'following_count',
         'owner__following__created_at',
-        'owner__followed__created_at'
+        'owner__followed__created_at',
     ]
     
 class ProfileDetail(generics.RetrieveUpdateAPIView):
